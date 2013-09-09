@@ -1,0 +1,46 @@
+<!-- 
+    Document   : index
+    Created on : 2013/09/09, 22:18:33
+    Author     : sato
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JsonpWeb</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="./jquery-2.0.3.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready( function() {
+            $("#buttonA").click(function(){
+                val_textA = $("#textA").val();
+                //alert("hello world! : "+val_textA);
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/JsonpWeb/JsonpServlet",
+                    data: {
+                        "textA": val_textA
+                    },
+                    dataType: "jsonp",
+                    jsonpCallback: "satoA",
+                    //クロスドメイン通信設定
+                    crossDomain: true
+                })
+                .done(function(msg){//成功時
+                    //alert("success :"+msg.rdata);
+                    $("#viewA").text(msg.rdata);
+                })
+                .fail(function(msg){//エラー
+                    alert("error :"+msg);
+                })
+            });
+        });
+        </script>
+    </head>
+    <body>
+        <div>JsonpWeb</div>
+        <hr>
+        <input type="text" id="textA" value="AAA" /><br>
+        <input type="button" id="buttonA" value="ButtonA" /><br>
+        <div id="viewA">view this</div>
+    </body>
+</html>
